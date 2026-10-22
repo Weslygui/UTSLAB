@@ -1,98 +1,145 @@
-import * as Device from 'expo-device';
-import { Platform, StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import React from 'react';
+import {
+  View,
+  Text,
+  ScrollView,
+  StyleSheet,
+} from 'react-native';
 
-import { AnimatedIcon } from '@/components/animated-icon';
-import { HintRow } from '@/components/hint-row';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { WebBadge } from '@/components/web-badge';
-import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
-
-function getDevMenuHint() {
-  if (Platform.OS === 'web') {
-    return <ThemedText type="small">use browser devtools</ThemedText>;
-  }
-  if (Device.isDevice) {
-    return (
-      <ThemedText type="small">
-        shake device or press <ThemedText type="code">m</ThemedText> in terminal
-      </ThemedText>
-    );
-  }
-  const shortcut = Platform.OS === 'android' ? 'cmd+m (or ctrl+m)' : 'cmd+d';
-  return (
-    <ThemedText type="small">
-      press <ThemedText type="code">{shortcut}</ThemedText>
-    </ThemedText>
-  );
-}
+import InfoCard from '../components/InfoCard';
 
 export default function HomeScreen() {
   return (
-    <ThemedView style={styles.container}>
-      <SafeAreaView style={styles.safeArea}>
-        <ThemedView style={styles.heroSection}>
-          <AnimatedIcon />
-          <ThemedText type="title" style={styles.title}>
-            Welcome to&nbsp;Expo
-          </ThemedText>
-        </ThemedView>
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={styles.content}
+      showsVerticalScrollIndicator={false}
+    >
+      <View style={styles.header}>
+        <View>
+          <Text style={styles.eyebrow}>MY DAY ✦</Text>
+          <Text style={styles.heading}>Let's get</Text>
+          <Text style={styles.headingAccent}>things done.</Text>
+        </View>
 
-        <ThemedText type="code" style={styles.code}>
-          get started
-        </ThemedText>
+        <View style={styles.countCircle}>
+          <Text style={styles.count}>5</Text>
+          <Text style={styles.countLabel}>tasks</Text>
+        </View>
+      </View>
 
-        <ThemedView type="backgroundElement" style={styles.stepContainer}>
-          <HintRow
-            title="Try editing"
-            hint={<ThemedText type="code">src/app/index.tsx</ThemedText>}
-          />
-          <HintRow title="Dev tools" hint={getDevMenuHint()} />
-          <HintRow
-            title="Fresh start"
-            hint={<ThemedText type="code">npm run reset-project</ThemedText>}
-          />
-        </ThemedView>
+      <Text style={styles.date}>Thursday, 22 October 2026</Text>
 
-        {Platform.OS === 'web' && <WebBadge />}
-      </SafeAreaView>
-    </ThemedView>
+      <View style={styles.divider} />
+
+      <InfoCard
+        title="Menyelesaikan laporan UTS"
+        status="selesai"
+        onPress={() => alert('Laporan UTS sudah selesai')}
+      />
+
+      <InfoCard
+        title="Membuat component React Native"
+        status="proses"
+        onPress={() => alert('Detail component React Native')}
+      />
+
+      <InfoCard
+        title="Menyusun dokumentasi project"
+        status="proses"
+        onPress={() => alert('Detail dokumentasi project')}
+      />
+
+      <InfoCard
+        title="Merapikan struktur folder aplikasi"
+        status="selesai"
+        onPress={() => alert('Struktur folder sudah dirapikan')}
+      />
+
+      <InfoCard
+        title="Melakukan testing halaman utama"
+        status="proses"
+        onPress={() => alert('Detail testing halaman utama')}
+      />
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    backgroundColor: '#F4F1EA',
+  },
+
+  content: {
+    paddingHorizontal: 22,
+    paddingTop: 65,
+    paddingBottom: 35,
+  },
+
+  header: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
   },
-  safeArea: {
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    alignItems: 'center',
-    gap: Spacing.three,
-    paddingBottom: BottomTabInset + Spacing.three,
-    maxWidth: MaxContentWidth,
+
+  eyebrow: {
+    fontSize: 10,
+    fontWeight: '800',
+    letterSpacing: 2,
+    color: '#88837B',
+    marginBottom: 14,
   },
-  heroSection: {
+
+  heading: {
+    fontSize: 36,
+    lineHeight: 38,
+    fontWeight: '800',
+    color: '#171717',
+    letterSpacing: -1,
+  },
+
+  headingAccent: {
+    fontSize: 36,
+    lineHeight: 38,
+    fontWeight: '800',
+    color: '#FF6B35',
+    letterSpacing: -1,
+  },
+
+  countCircle: {
+    width: 64,
+    height: 64,
+    borderRadius: 32,
+    backgroundColor: '#191919',
     alignItems: 'center',
     justifyContent: 'center',
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    gap: Spacing.four,
+    marginTop: 5,
   },
-  title: {
-    textAlign: 'center',
+
+  count: {
+    color: '#FFFFFF',
+    fontSize: 19,
+    fontWeight: '800',
   },
-  code: {
-    textTransform: 'uppercase',
+
+  countLabel: {
+    color: '#BDBDBD',
+    fontSize: 9,
+    marginTop: -2,
   },
-  stepContainer: {
-    gap: Spacing.three,
-    alignSelf: 'stretch',
-    paddingHorizontal: Spacing.three,
-    paddingVertical: Spacing.four,
-    borderRadius: Spacing.four,
+
+  date: {
+    fontSize: 12,
+    color: '#858078',
+    marginTop: 18,
   },
+
+  divider: {
+    height: 1,
+    backgroundColor: '#DAD6CE',
+    marginTop: 25,
+    marginBottom: 20,
+  },
+
 });
